@@ -60,10 +60,12 @@ async function extractJobDescription(url) {
                 throw new Error(`An error occurred while fetching the URL: ${response.statusText}`);
             }
             const htmlContent = await response.text();
+            console.log(htmlContent)
             const dom = new JSDOM(htmlContent);
 
             if (url.includes('linkedin.com')) {
                 const jobDescriptionElement = dom.window.document.getElementById('job-details');
+                console.log(dom.window.document.body)
                 if (jobDescriptionElement) {
                     return jobDescriptionElement.textContent;
                 } else {
