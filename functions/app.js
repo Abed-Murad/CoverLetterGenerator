@@ -13,7 +13,7 @@ async function askChatGPTToGenerateCoverACoverLetter(resumeText, jobUrl) {
     const jobDescriptionText = await extractJobDescription(jobUrl);
     const cleanJobDescription = jobDescriptionText.replace(/[^\w\s]/gi, '').replace(/\s+/g, ' ').trim();
 
-    const prompt = 'My Name is Abed and Here is my Resume ' + cleanResume + '.\n Write a Cover Letter as If you where me for the position posted below.\n' + cleanJobDescription;
+    const prompt = 'Start it with Dear..., My Name is Abed and Here is my Resume ' + cleanResume + '.\n Write a Cover Letter as If you where me for the position posted below.\n' + cleanJobDescription;
 
     const response = await fetch(API_URL, {
         method: 'POST',
