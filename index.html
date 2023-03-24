@@ -28,12 +28,17 @@
     </div>
     <button id="exportAsPDF">Download as PDF</button>
     <button id="generateCoverLetter">Generate</button>
+
+    <div id="loading" class="loading" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+
 </div>
 
 <script>
-
     var resume = "Empty"
-
+    const loading = document.getElementById('loading');
 
 
     document.getElementById('resume').addEventListener('change', async (event) => {
@@ -43,8 +48,7 @@
             const fileReader = new FileReader();
             fileReader.onload = async (e) => {
                 const pdfData = new Uint8Array(e.target.result);
-                const extractedText = await extractTextFromPdf(pdfData);
-                resume = extractedText
+                resume = await extractTextFromPdf(pdfData)
                 console.log(resume)
             };
             fileReader.readAsArrayBuffer(file);
@@ -57,8 +61,7 @@
         // const jobDescriptionText = await extractJobDescription();
         const urlInput = document.getElementById('jobUrl');
         const url = urlInput.value.trim();
-        const coverLetter = await  askChatGPTToGenerateCoverACoverLetter(resume , url)
-        document.getElementById('coverLetter').value = coverLetter
+        document.getElementById('coverLetter').value = await askChatGPTToGenerateCoverACoverLetter(resume, url)
     });
 
     document.getElementById('exportAsPDF').addEventListener('click',()=>{
@@ -100,7 +103,7 @@
 <script>
     const API_URL = "https://lighthearted-puppy-fc68cb.netlify.app/api/v1/cover-letter";
     async function askChatGPTToGenerateCoverACoverLetter(resumeText , jobUrl) {
-
+        loading.style.display = 'flex';
         const response = await fetch(API_URL, {
             method: "POST",
             headers: {
@@ -119,6 +122,7 @@
         const data = await response.json();
         const firstText = data.coverLetter;
         console.log(firstText);
+        loading.style.display = 'none';
         return firstText;
     }
 </script>
