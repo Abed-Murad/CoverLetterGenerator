@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Cover Letter Generator</title>
+    <link href="styles.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<div class="form">
+    <h1>AI Cover Letter Generator</h1>
+    <div class="form-section">
+        <label for="jobUrl">Select your resume</label>
+        <input accept=".pdf" id="resume" name="pdfFile" type="file">
+    </div>
+    <div class="form-section">
+        <label for="jobUrl">Enter Job post url</label>
+        <input id="jobUrl" placeholder="Example: join.com/software-engineer" type="text">
+    </div>
+    <br>
+    <br>
+    <div class="form-section">
+        <label for="jobDescription">Generated Cover Letter</label><textarea id="jobDescription"></textarea>
+    </div>
+    <button id="exportAsPDF">Download  as PDF</button>
+    <button id="generateCoverLetter">Generate</button>
+</div>
+</body>
+</html>
