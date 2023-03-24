@@ -56,26 +56,35 @@ async function extractJobDescription(url) {
     if (url) {
         try {
             const response = await fetch(url);
-
             if (!response.ok) {
                 throw new Error(`An error occurred while fetching the URL: ${response.statusText}`);
             }
-
             const htmlContent = await response.text();
             const dom = new JSDOM(htmlContent);
-            const jobDescriptionElement = dom.window.document.getElementById('about-job');
 
-            if (jobDescriptionElement) {
-                return jobDescriptionElement.textContent;
-            } else {
-                throw new Error('The element with the ID "job-description" was not found.');
+            if (url.includes('linkedin.com')) {
+                const jobDescriptionElement = dom.window.document.getElementById('job-details');
+                if (jobDescriptionElement) {
+                    return jobDescriptionElement.textContent;
+                } else {
+                    throw new Error('The element with the ID "job-details" was not found.');
+                }
+            }
+
+            if (url.includes('join.com')){
+                const jobDescriptionElement = dom.window.document.getElementById('about-job');
+                if (jobDescriptionElement) {
+                    return jobDescriptionElement.textContent;
+                } else {
+                    throw new Error('The element with the ID "job-description" was not found.');
+                }
             }
         } catch (error) {
             console.error(`Error: ${error.message}`);
             throw error;
         }
     } else {
-        throw new Error('Please enter a valid URL.');
+        throw new Error('Please enter a valid URL from LinkedIn or Join.');
     }
 }
 
